@@ -1,5 +1,7 @@
 package com.scsmmp;
 
+import com.scsmmp.interfaces.ProcessUpdaterListener;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,10 +12,10 @@ import java.util.zip.ZipOutputStream;
 
 public class Packer
 {
-    private UpdaterListener listener;
+    private ProcessUpdaterListener listener;
     private PackerThread packerThread;
 
-    public Packer(UpdaterListener listener)
+    public Packer(ProcessUpdaterListener listener)
     {
         this.listener = listener;
     }
@@ -83,11 +85,11 @@ public class Packer
                 filesProcessed++;
 
                 if (listener != null) {
-                    listener.updateProgress(getPercentageProgress());
+                    listener.onUpdateProgress(getPercentageProgress());
                 }
             } else {
                 if (listener != null) {
-                    listener.notifyError();
+                    listener.onNotifyError();
                 }
             }
         }
