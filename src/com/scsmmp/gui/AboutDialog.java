@@ -27,9 +27,11 @@ public class AboutDialog
         epHelp.setEditable(false);
         epHelp.setText(
                 "<h2>" + name + " v" + version + "</h2>" +
-                "<h3>Author: Daniel Prieto</h3>" +
-                "Start, abort and help icons by <b>FatCow Farm-fresh</b><br>" +
-                "<font color=\"blue\">http://www.fatcow.com/free-icons)</font>.<br><br>" +
+                "This tiny tool allows automate the process of packaging files for a mod created through ETS2 map<br>" +
+                "editor and probably ATS (not tested) creating a single .scs file ready to be activated in the game.<br><br>" +
+                "<b>Author: Daniel Prieto</b><br><br>" +
+                "Start, abort, help and package icons by <b>FatCow Farm-fresh</b>: " +
+                "<font color=\"blue\">http://www.fatcow.com/free-icons)</font>.<br>" +
                 "User manual: <font color=\"blue\">https://github.com/dprietob/SCS-Map-Mod-Packer/wiki</font>."
         );
 

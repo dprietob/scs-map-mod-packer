@@ -140,6 +140,7 @@ public class MainFrame extends JFrame
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle(sName + " v" + sVersion);
+        setIconImage(new ImageIcon(getClass().getResource("icons/icon.png")).getImage());
         setResizable(false);
         setVisible(true);
     }

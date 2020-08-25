@@ -11,12 +11,16 @@ public class Main
 
     public static void main(String[] args)
     {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Something went wrong while trying set system look and feel.",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
             MainFrame gui = new MainFrame(NAME, VERSION);
             gui.build();
-        } catch (Exception e) {
-            // handle exception
-        }
+        });
     }
 }
