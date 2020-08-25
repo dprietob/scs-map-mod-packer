@@ -12,6 +12,9 @@ public class MainFrame extends JFrame
     private final int MSG_ERROR = 1;
     private final int MSG_INFO = 2;
 
+    private String sName;
+    private String sVersion;
+
     private JTextField tfName;
     private JTextField tfInput;
     private JTextField tfOutput;
@@ -23,8 +26,10 @@ public class MainFrame extends JFrame
     private JButton bAbout;
     private Packer packer;
 
-    public MainFrame()
+    public MainFrame(String name, String version)
     {
+        sName = name;
+        sVersion = version;
         tfName = new JTextField();
         tfInput = new JTextField();
         tfOutput = new JTextField();
@@ -134,7 +139,7 @@ public class MainFrame extends JFrame
         setSize(500, getHeight());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("SCS Map Mod Packer");
+        setTitle(sName + " v" + sVersion);
         setResizable(false);
         setVisible(true);
     }
@@ -143,7 +148,7 @@ public class MainFrame extends JFrame
     {
         bInput.addActionListener(e -> FileChooserDialog.show(directoryPath -> tfInput.setText(directoryPath)));
         bOutput.addActionListener(e -> FileChooserDialog.show(directoryPath -> tfOutput.setText(directoryPath)));
-        bAbout.addActionListener(e -> AboutDialog.show(this));
+        bAbout.addActionListener(e -> AboutDialog.show(this, sName, sVersion));
         bAbort.addActionListener(e -> finishProcess());
         bStart.addActionListener(e -> {
             packer = new Packer(new ProcessUpdaterListener()
