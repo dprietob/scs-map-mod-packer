@@ -35,6 +35,7 @@ public class Terminal
             if (args[0].equals("--o")) {
                 mod = new Mod(args[1], args[2], args[3]);
                 mod.setOverwrite(true);
+
             } else {
                 showMessage(MSG_ERROR, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
             }
@@ -76,14 +77,14 @@ public class Terminal
 
     private void updateProgressASCIIBar(int progress)
     {
-        int reducedProgress = progress / 5;
+        int reducedProgress = progress / 2;
         System.out.print("\u001b[0m\r|");
 
         for (int i = 0; i < reducedProgress; i++) {
             System.out.print("=");
         }
 
-        for (int i = reducedProgress; i < 20; i++) {
+        for (int i = reducedProgress; i < 50; i++) {
             System.out.print(" ");
         }
 
@@ -95,8 +96,10 @@ public class Terminal
         if (args.length == 1) {
             if (args[0].equals("--help")) {
                 showHelp();
+
             } else if (args[0].equals("--version")) {
                 showVersion();
+
             } else {
                 showMessage(MSG_ERROR, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
             }
