@@ -9,14 +9,26 @@ public class Mod
     private String name;
     private String inputPath;
     private String outputPath;
+    private boolean overwrite;
     private File mbdFile;
     private List<File> secFiles;
 
-    public Mod(String name, String inputPath, String outputPath)
+    public Mod(String sName, String sInputPath, String sOutputPath)
     {
-        this.name = name;
-        this.inputPath = inputPath;
-        this.outputPath = outputPath;
+        name = sName.trim();
+        inputPath = sInputPath.trim();
+        outputPath = sOutputPath.trim();
+        overwrite = false;
+    }
+
+    public boolean isOverwrite()
+    {
+        return overwrite;
+    }
+
+    public void setOverwrite(boolean bOverwrite)
+    {
+        overwrite = bOverwrite;
     }
 
     public String getSecScsDir()

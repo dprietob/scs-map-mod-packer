@@ -15,9 +15,9 @@ public class Packer
     private ProcessUpdaterListener listener;
     private PackerThread packerThread;
 
-    public Packer(ProcessUpdaterListener listener)
+    public Packer(ProcessUpdaterListener pulListener)
     {
-        this.listener = listener;
+        listener = pulListener;
     }
 
     public void wrap(Mod mod)
@@ -41,12 +41,12 @@ public class Packer
         private int filesProcessed;
         private boolean isExecuting;
 
-        private PackerThread(Mod mod)
+        private PackerThread(Mod mMod)
         {
-            this.mod = mod;
-            this.totalFiles = mod.getSecFileList().size() + 1;
-            this.filesProcessed = 0;
-            this.isExecuting = false;
+            mod = mMod;
+            totalFiles = mMod.getSecFileList().size() + 1;
+            filesProcessed = 0;
+            isExecuting = false;
         }
 
         public void run()
