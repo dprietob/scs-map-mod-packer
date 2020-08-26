@@ -11,22 +11,42 @@ import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+/**
+ * Class that defines the Packer entity, in charge to wrapping the mod.
+ *
+ * @author Daniel Prieto
+ * @version 1.0.0
+ * @since 2020-08-26
+ */
 public class Packer
 {
     private ProcessUpdaterListener listener;
     private PackerThread packerThread;
 
+    /**
+     * Instantiates a new Packer object with the receiving params.
+     *
+     * @param pulListener
+     */
     public Packer(ProcessUpdaterListener pulListener)
     {
         listener = pulListener;
     }
 
+    /**
+     * Starts a new wrapping process in a new thread.
+     *
+     * @param mod
+     */
     public void wrap(Mod mod)
     {
         packerThread = new PackerThread(mod);
         packerThread.start();
     }
 
+    /**
+     * Aborts the current wrapping process.
+     */
     public void abort()
     {
         if (packerThread != null) {
@@ -34,6 +54,14 @@ public class Packer
         }
     }
 
+    /**
+     * Inner class that defines the PackerThread entity, in charge to handle
+     * wrapping process.
+     *
+     * @author Daniel Prieto
+     * @version 1.0.0
+     * @since 2020-08-26
+     */
     private class PackerThread extends Thread implements Runnable
     {
         private Mod mod;
@@ -42,6 +70,11 @@ public class Packer
         private int filesProcessed;
         private boolean isExecuting;
 
+        /**
+         * Instantiates a new PackerThread object with the receiving params.
+         *
+         * @param mMod
+         */
         private PackerThread(Mod mMod)
         {
             mod = mMod;
@@ -50,6 +83,9 @@ public class Packer
             isExecuting = false;
         }
 
+        /**
+         * Executes the wrapping process.
+         */
         public void run()
         {
             try {
@@ -88,6 +124,12 @@ public class Packer
             }
         }
 
+        /**
+         * Creates a backup file of the old .scs file at the same
+         * output directory.
+         *
+         * @return
+         */
         private boolean createOldFileBackup()
         {
             File oldScsFile = new File(mod.getOutputPath());
@@ -99,11 +141,22 @@ public class Packer
             return true;
         }
 
+        /**
+         * Returns the backup file extension with current time millis.
+         *
+         * @return
+         */
         private String getBackupExt()
         {
             return "_" + new Timestamp(System.currentTimeMillis()).toInstant().toEpochMilli() + ".old";
         }
 
+        /**
+         * Processes a mod file, adding it to a .scs final file.
+         *
+         * @param file
+         * @param dir
+         */
         private void processFile(File file, String dir)
         {
             if (addFile(file, dir)) {
@@ -119,6 +172,13 @@ public class Packer
             }
         }
 
+        /**
+         * Adds the current mod file processed to a .scs final file.
+         *
+         * @param file
+         * @param dir
+         * @return
+         */
         private boolean addFile(File file, String dir)
         {
             try {
@@ -141,11 +201,19 @@ public class Packer
             return true;
         }
 
+        /**
+         * Returns the current processing percentage.
+         *
+         * @return
+         */
         private int getPercentageProgress()
         {
             return (filesProcessed * 100) / totalFiles;
         }
 
+        /**
+         * Aborts the current wrapping process thread.
+         */
         private void abort()
         {
             isExecuting = false;

@@ -2,6 +2,14 @@ package com.scsmmp;
 
 import com.scsmmp.interfaces.ProcessUpdaterListener;
 
+/**
+ * Class that defines the Terminal entity, in charge to execute
+ * the application via command line.
+ *
+ * @author Daniel Prieto
+ * @version 1.0.0
+ * @since 2020-08-26
+ */
 public class Terminal
 {
     private final int MSG_DEFAULT = 1;
@@ -14,6 +22,13 @@ public class Terminal
     private String version;
     private Mod mod;
 
+    /**
+     * Instantiates a new Terminal object with the receiving params.
+     *
+     * @param arrArgs
+     * @param sName
+     * @param sVersion
+     */
     public Terminal(String[] arrArgs, String sName, String sVersion)
     {
         args = arrArgs;
@@ -21,6 +36,9 @@ public class Terminal
         version = sVersion;
     }
 
+    /**
+     * Starts the CLI execution.
+     */
     public void start()
     {
         showMessage(MSG_DEFAULT, false, name + " v" + version);
@@ -49,6 +67,9 @@ public class Terminal
         }
     }
 
+    /**
+     * Initializes the wrapping process through CLI.
+     */
     private void initWrappingProcess()
     {
         showMessage(MSG_INFO, false, "\nWrapping process init:");
@@ -80,6 +101,10 @@ public class Terminal
         packer.wrap(mod);
     }
 
+    /**
+     * Updates an ASCII progress bar and draws it in the terminal.
+     * @param progress
+     */
     private void updateProgressASCIIBar(int progress)
     {
         int reducedProgress = progress / 2;
@@ -96,6 +121,9 @@ public class Terminal
         System.out.print("| " + progress + "%");
     }
 
+    /**
+     * Recognizes receiving commands.
+     */
     private void recognizeCommand()
     {
         if (args.length == 1) {
@@ -109,6 +137,9 @@ public class Terminal
         }
     }
 
+    /**
+     * Shows commands help list.
+     */
     private void showHelp()
     {
         showMessage(MSG_DEFAULT, false, "Usage: scsmmp.jar [--version] [--help] [--o] [<args>]");
@@ -130,11 +161,21 @@ public class Terminal
         showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --o \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
     }
 
+    /**
+     * Shows application version.
+     */
     private void showVersion()
     {
         showMessage(MSG_INFO, false, name + " version " + version);
     }
 
+    /**
+     * Shows a message through terminal.
+     *
+     * @param type
+     * @param tabulated
+     * @param message
+     */
     private void showMessage(int type, boolean tabulated, String message)
     {
         String color = "\u001b[0m";

@@ -4,11 +4,23 @@ import com.scsmmp.gui.MainFrame;
 
 import javax.swing.*;
 
+/**
+ * Main class that runs the application.
+ *
+ * @author Daniel Prieto
+ * @version 1.0.0
+ * @since 2020-08-26
+ */
 public class Main
 {
     private static final String NAME = "SCS Map Mod Packer";
     private static final String VERSION = "1.0.0";
 
+    /**
+     * Runs the application.
+     *
+     * @param args
+     */
     public static void main(String[] args)
     {
         if (args.length > 0) {

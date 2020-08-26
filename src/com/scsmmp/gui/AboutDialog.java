@@ -3,8 +3,22 @@ package com.scsmmp.gui;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Manages the about dialog.
+ *
+ * @author Daniel Prieto
+ * @version 1.0.0
+ * @since 2020-08-26
+ */
 public class AboutDialog
 {
+    /**
+     * Shows the about dialog.
+     *
+     * @param parent
+     * @param name
+     * @param version
+     */
     public static void show(JFrame parent, String name, String version)
     {
         JDialog aboutDialog = new JDialog();
@@ -18,6 +32,13 @@ public class AboutDialog
         aboutDialog.setVisible(true);
     }
 
+    /**
+     * Obtains the main info pane.
+     *
+     * @param name
+     * @param version
+     * @return
+     */
     private static JPanel getMainPane(String name, String version)
     {
         JEditorPane epHelp = new JEditorPane();

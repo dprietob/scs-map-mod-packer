@@ -7,6 +7,14 @@ import com.scsmmp.interfaces.ProcessUpdaterListener;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Manages the application GUI, showing the main frame and handling
+ * all components events.
+ *
+ * @author Daniel Prieto
+ * @version 1.0.0
+ * @since 2020-08-26
+ */
 public class MainFrame extends JFrame
 {
     private final int MSG_ERROR = 1;
@@ -27,6 +35,13 @@ public class MainFrame extends JFrame
     private JButton bAbout;
     private Packer packer;
 
+    /**
+     * Instantiates a new main frame, receiving the application
+     * name and version.
+     *
+     * @param name
+     * @param version
+     */
     public MainFrame(String name, String version)
     {
         sName = name;
@@ -58,6 +73,9 @@ public class MainFrame extends JFrame
         bAbort.setEnabled(false);
     }
 
+    /**
+     * Builds all frame components adding them to a main panel.
+     */
     public void build()
     {
         JPanel mainPane = new JPanel();
@@ -154,6 +172,9 @@ public class MainFrame extends JFrame
         setVisible(true);
     }
 
+    /**
+     * Adds buttons listener to handle their events.
+     */
     private void setButtonsListeners()
     {
         bInput.addActionListener(e -> FileChooserDialog.show(directoryPath -> tfInput.setText(directoryPath)));
@@ -196,6 +217,9 @@ public class MainFrame extends JFrame
         });
     }
 
+    /**
+     * Finalizes wrapping process, updating and restoring GUI status.
+     */
     private void finishProcess()
     {
         if (packer != null) {
@@ -206,6 +230,11 @@ public class MainFrame extends JFrame
         }
     }
 
+    /**
+     * Returns a Mod object throught GUI configuration.
+     *
+     * @return
+     */
     private Mod getMod()
     {
         String name = tfName.getText();
@@ -219,6 +248,12 @@ public class MainFrame extends JFrame
         return null;
     }
 
+    /**
+     * Shows a message via popup.
+     *
+     * @param type
+     * @param message
+     */
     private void showMessage(int type, String message)
     {
         JOptionPane.showMessageDialog(this, message,
