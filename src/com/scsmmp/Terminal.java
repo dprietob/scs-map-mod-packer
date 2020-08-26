@@ -23,7 +23,7 @@ public class Terminal
 
     public void start()
     {
-        showMessage(MSG_DEFAULT, name + " v" + version);
+        showMessage(MSG_DEFAULT, false, name + " v" + version);
 
         if (args.length == 1) {
             recognizeCommand();
@@ -34,14 +34,14 @@ public class Terminal
         } else if (args.length == 4) {
             if (args[0].equals("--o")) {
                 mod = new Mod(args[1], args[2], args[3]);
-                mod.setOverwrite(true);
-
+                mod.setCreateBackup(false);
             } else {
-                showMessage(MSG_ERROR, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
+                showMessage(MSG_ERROR, true, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
+                showMessage(MSG_ERROR, false, "Process finished with errors!");
             }
-
         } else {
-            showMessage(MSG_ERROR, "Argument list is wrong. Please, see 'scsmmp.jar --help'.");
+            showMessage(MSG_ERROR, true, "Argument list is wrong. Please, see 'scsmmp.jar --help'.");
+            showMessage(MSG_ERROR, false, "Process finished with errors!");
         }
 
         if (mod != null) {
@@ -51,7 +51,7 @@ public class Terminal
 
     private void initWrappingProcess()
     {
-        showMessage(MSG_INFO, "\nWrapping process init:");
+        showMessage(MSG_INFO, false, "\nWrapping process init:");
 
         Packer packer = new Packer(new ProcessUpdaterListener()
         {
@@ -61,14 +61,19 @@ public class Terminal
                 updateProgressASCIIBar(progress);
 
                 if (progress == 100) {
-                    showMessage(MSG_SUCCESS, "\nProcess finished!");
+                    showMessage(MSG_SUCCESS, false, "\nProcess finished!");
                 }
             }
 
             @Override
-            public void onNotifyError()
+            public void onNotifyError(String reason)
             {
-                showMessage(MSG_ERROR, "Has been an error while wrapping process was executing.");
+                if (reason != null) {
+                    showMessage(MSG_ERROR, true, reason);
+                } else {
+                    showMessage(MSG_ERROR, true, "Has been an error while wrapping process was executing.");
+                }
+                showMessage(MSG_ERROR, false, "Process finished with errors!");
             }
         });
 
@@ -96,43 +101,41 @@ public class Terminal
         if (args.length == 1) {
             if (args[0].equals("--help")) {
                 showHelp();
-
             } else if (args[0].equals("--version")) {
                 showVersion();
-
             } else {
-                showMessage(MSG_ERROR, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
+                showMessage(MSG_ERROR, true, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
             }
         }
     }
 
     private void showHelp()
     {
-        showMessage(MSG_DEFAULT, "Usage: scsmmp.jar [--version] [--help] [--o] [<args>]");
+        showMessage(MSG_DEFAULT, false, "Usage: scsmmp.jar [--version] [--help] [--o] [<args>]");
 
-        showMessage(MSG_DEFAULT, "\n Commands:");
-        showMessage(MSG_DEFAULT, "\t --version: shows SCSMMP version.");
-        showMessage(MSG_DEFAULT, "\t --help: shows this commands help list.");
-        showMessage(MSG_DEFAULT, "\t --o: overwrites the .scs output file in case there is one in the output directory. If this command is ommited, a backup file will be created for the old .scs file with the same name as the current placed in the same output directory.");
+        showMessage(MSG_DEFAULT, false, "\n Commands:");
+        showMessage(MSG_DEFAULT, false, "\t --version: shows SCSMMP version.");
+        showMessage(MSG_DEFAULT, false, "\t --help: shows this commands help list.");
+        showMessage(MSG_DEFAULT, false, "\t --o: overwrites the .scs output file in case there is one in the output directory. If this command is ommited, a backup file will be created for the old .scs file with the same name as the current placed in the same output directory.");
 
-        showMessage(MSG_DEFAULT, "\n To wrap map mods, is needed 3 arguments as minimum:");
-        showMessage(MSG_DEFAULT, "\t Map mod name: it's the map mod name, it's the same that the \"map/map_name.mbd\" filename.");
-        showMessage(MSG_DEFAULT, "\t Map mod directory: it's the edited map directory. By default is \"C:\\Program Files\\Steam\\steamapps\\common\\Euro Truck Simulator 2\\base_map\\map\" at Windows OS.");
-        showMessage(MSG_DEFAULT, "\t Output directory: it's the .scs wrapped file output directory. Can be any directory, but can be setted like \"C:\\Users\\<user>\\Documents\\Euro Truck Simulator 2\\mod\" to can be loaded automatically.");
+        showMessage(MSG_DEFAULT, false, "\n To wrap map mods, is needed 3 arguments as minimum:");
+        showMessage(MSG_DEFAULT, false, "\t Map mod name: it's the map mod name, it's the same that the \"map/map_name.mbd\" filename.");
+        showMessage(MSG_DEFAULT, false, "\t Map mod directory: it's the edited map directory. By default is \"C:\\Program Files\\Steam\\steamapps\\common\\Euro Truck Simulator 2\\base_map\\map\" at Windows OS.");
+        showMessage(MSG_DEFAULT, false, "\t Output directory: it's the .scs wrapped file output directory. Can be any directory, but can be setted like \"C:\\Users\\<user>\\Documents\\Euro Truck Simulator 2\\mod\" to can be loaded automatically.");
 
-        showMessage(MSG_DEFAULT, "\n Examples list:");
-        showMessage(MSG_DEFAULT, "\t scsmmp.jar --version");
-        showMessage(MSG_DEFAULT, "\t scsmmp.jar --help");
-        showMessage(MSG_DEFAULT, "\t scsmmp.jar \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
-        showMessage(MSG_DEFAULT, "\t scsmmp.jar --o \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
+        showMessage(MSG_DEFAULT, false, "\n Examples list:");
+        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --version");
+        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --help");
+        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
+        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --o \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
     }
 
     private void showVersion()
     {
-        showMessage(MSG_INFO, name + " version " + version);
+        showMessage(MSG_INFO, false, name + " version " + version);
     }
 
-    private void showMessage(int type, String message)
+    private void showMessage(int type, boolean tabulated, String message)
     {
         String color = "\u001b[0m";
 
@@ -148,6 +151,10 @@ public class Terminal
             case MSG_SUCCESS:
                 color = "\u001b[32m";
                 break;
+        }
+
+        if (tabulated) {
+            message = "\t>> " + message;
         }
 
         System.out.println(color + message);

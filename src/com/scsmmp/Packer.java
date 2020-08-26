@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -53,17 +54,25 @@ public class Packer
         {
             try {
                 isExecuting = true;
-                zos = new ZipOutputStream(new FileOutputStream(mod.getOutputPath()));
-                zos.setLevel(Deflater.NO_COMPRESSION);
-                zos.setMethod(Deflater.DEFLATED);
 
-                for (File secFile : mod.getSecFileList()) {
-                    if (!isExecuting) {
-                        break;
-                    }
-                    processFile(secFile, mod.getSecScsDir());
+                if (mod.isCreateBackup() && !createOldFileBackup()) {
+                    listener.onNotifyError("An error occurred while trying to backup the old .scs file.");
+                    isExecuting = false;
                 }
-                processFile(mod.getMbdFile(), mod.getMapScsDir());
+
+                if (isExecuting) {
+                    zos = new ZipOutputStream(new FileOutputStream(mod.getOutputPath()));
+                    zos.setLevel(Deflater.NO_COMPRESSION);
+                    zos.setMethod(Deflater.DEFLATED);
+
+                    for (File secFile : mod.getSecFileList()) {
+                        if (!isExecuting) {
+                            break;
+                        }
+                        processFile(secFile, mod.getSecScsDir());
+                    }
+                    processFile(mod.getMbdFile(), mod.getMapScsDir());
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -79,6 +88,22 @@ public class Packer
             }
         }
 
+        private boolean createOldFileBackup()
+        {
+            File oldScsFile = new File(mod.getOutputPath());
+
+            if (oldScsFile.exists()) {
+                return oldScsFile.renameTo(new File(oldScsFile.getAbsolutePath() + getBackupExt()));
+            }
+
+            return true;
+        }
+
+        private String getBackupExt()
+        {
+            return "_" + new Timestamp(System.currentTimeMillis()).toInstant().toEpochMilli() + ".old";
+        }
+
         private void processFile(File file, String dir)
         {
             if (addFile(file, dir)) {
@@ -89,7 +114,7 @@ public class Packer
                 }
             } else {
                 if (listener != null) {
-                    listener.onNotifyError();
+                    listener.onNotifyError("An error occurred while trying to package the file '" + file.getAbsolutePath() + "'");
                 }
             }
         }

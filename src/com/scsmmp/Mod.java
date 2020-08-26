@@ -9,7 +9,7 @@ public class Mod
     private String name;
     private String inputPath;
     private String outputPath;
-    private boolean overwrite;
+    private boolean createBackup;
     private File mbdFile;
     private List<File> secFiles;
 
@@ -18,17 +18,25 @@ public class Mod
         name = sName.trim();
         inputPath = sInputPath.trim();
         outputPath = sOutputPath.trim();
-        overwrite = false;
+        createBackup = true;
     }
 
-    public boolean isOverwrite()
+    public Mod(String sName, String sInputPath, String sOutputPath, boolean bCreateBackup)
     {
-        return overwrite;
+        name = sName.trim();
+        inputPath = sInputPath.trim();
+        outputPath = sOutputPath.trim();
+        createBackup = bCreateBackup;
     }
 
-    public void setOverwrite(boolean bOverwrite)
+    public boolean isCreateBackup()
     {
-        overwrite = bOverwrite;
+        return createBackup;
+    }
+
+    public void setCreateBackup(boolean bCreateBackup)
+    {
+        createBackup = bCreateBackup;
     }
 
     public String getSecScsDir()

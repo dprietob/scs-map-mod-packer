@@ -18,6 +18,7 @@ public class MainFrame extends JFrame
     private JTextField tfName;
     private JTextField tfInput;
     private JTextField tfOutput;
+    private JCheckBox cbBackup;
     private JProgressBar pbProgress;
     private JButton bInput;
     private JButton bOutput;
@@ -33,6 +34,7 @@ public class MainFrame extends JFrame
         tfName = new JTextField();
         tfInput = new JTextField();
         tfOutput = new JTextField();
+        cbBackup = new JCheckBox("Create old .scs backup");
         pbProgress = new JProgressBar();
         bInput = new JButton("...");
         bOutput = new JButton("...");
@@ -42,6 +44,7 @@ public class MainFrame extends JFrame
 
         tfInput.setEnabled(false);
         tfOutput.setEnabled(false);
+        cbBackup.setSelected(true);
 
         pbProgress.setStringPainted(true);
         pbProgress.setValue(0);
@@ -75,8 +78,14 @@ public class MainFrame extends JFrame
         modPane.add(new JLabel("Name"), gbc);
 
         gbc.gridx = 2;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1;
         modPane.add(tfName, gbc);
+
+        gbc.gridx = 4;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        modPane.add(cbBackup, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -166,16 +175,20 @@ public class MainFrame extends JFrame
                 }
 
                 @Override
-                public void onNotifyError()
+                public void onNotifyError(String reason)
                 {
-                    showMessage(MSG_ERROR, "Has been an error while wrapping process was executing.");
+                    if (reason != null) {
+                        showMessage(MSG_ERROR, reason);
+                    } else {
+                        showMessage(MSG_ERROR, "Has been an error while wrapping process was executing.");
+                    }
                     finishProcess();
                 }
             });
             Mod mod = getMod();
 
             if (mod != null) {
-                packer.wrap(getMod());
+                packer.wrap(mod);
                 bAbort.setEnabled(true);
             } else {
                 showMessage(MSG_ERROR, "Please, fill all fields before start.");
@@ -198,9 +211,10 @@ public class MainFrame extends JFrame
         String name = tfName.getText();
         String input = tfInput.getText();
         String output = tfOutput.getText();
+        boolean createBackup = cbBackup.isSelected();
 
         if (!name.equals("") && !input.equals("") && !output.equals("")) {
-            return new Mod(name, input, output);
+            return new Mod(name, input, output, createBackup);
         }
         return null;
     }
