@@ -1,3 +1,4 @@
 .idea
 /out
+/launch4j
 *.iml
