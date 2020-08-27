@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -108,20 +109,31 @@ public class Packer
                     isExecuting = false;
                 }
 
+                List<File> secFileList = mod.getSecFileList();
+                File mbdFile = mod.getMbdFile();
+
                 if (isExecuting) {
-                    zos = new ZipOutputStream(new FileOutputStream(mod.getOutputPath()));
-                    zos.setLevel(Deflater.NO_COMPRESSION);
-                    zos.setMethod(Deflater.DEFLATED);
+                    if (secFileList.size() > 0) {
+                        zos = new ZipOutputStream(new FileOutputStream(mod.getOutputPath()));
+                        zos.setLevel(Deflater.NO_COMPRESSION);
+                        zos.setMethod(Deflater.DEFLATED);
 
-                    for (File secFile : mod.getSecFileList()) {
-                        if (!isExecuting) {
-                            break;
+                        for (File secFile : secFileList) {
+                            if (!isExecuting) {
+                                break;
+                            }
+                            processFile(secFile, mod.getSecScsDir());
                         }
-                        processFile(secFile, mod.getSecScsDir());
-                    }
-                    processFile(mod.getMbdFile(), mod.getMapScsDir());
-                }
 
+                        if (mbdFile != null) {
+                            processFile(mod.getMbdFile(), mod.getMapScsDir());
+                        } else {
+                            listener.onNotifyError("\".mbd\" file is missing.");
+                        }
+                    } else {
+                        listener.onNotifyError("\"Sec\" files directory is empty.");
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
 
