@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2020 The SCSMMP Author
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.scsmmp;
 
 import com.scsmmp.interfaces.ProcessUpdaterListener;
@@ -7,8 +23,6 @@ import com.scsmmp.interfaces.ProcessUpdaterListener;
  * the application via command line.
  *
  * @author Daniel Prieto
- * @version 1.0.0
- * @since 2020-08-26
  */
 public class Terminal
 {
@@ -54,11 +68,11 @@ public class Terminal
                 mod = new Mod(args[1], args[2], args[3]);
                 mod.setCreateBackup(false);
             } else {
-                showMessage(MSG_ERROR, true, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
+                showMessage(MSG_ERROR, true, "'" + args[0] + "' command is not available. Please, see 'java -jar scs-map-mod-packer<version>.jar --help'.");
                 showMessage(MSG_ERROR, false, "Process finished with errors!");
             }
         } else {
-            showMessage(MSG_ERROR, true, "Argument list is wrong. Please, see 'scsmmp.jar --help'.");
+            showMessage(MSG_ERROR, true, "Argument list is wrong. Please, see 'java -jar scs-map-mod-packer<version>.jar --help'.");
             showMessage(MSG_ERROR, false, "Process finished with errors!");
         }
 
@@ -132,7 +146,7 @@ public class Terminal
             } else if (args[0].equals("--version")) {
                 showVersion();
             } else {
-                showMessage(MSG_ERROR, true, "'" + args[0] + "' command is not available. Please, see 'scsmmp.jar --help'.");
+                showMessage(MSG_ERROR, true, "'" + args[0] + "' command is not available. Please, see 'java -jar scs-map-mod-packer<version>.jar --help'.");
             }
         }
     }
@@ -142,7 +156,7 @@ public class Terminal
      */
     private void showHelp()
     {
-        showMessage(MSG_DEFAULT, false, "Usage: scsmmp.jar [--version] [--help] [--o] [<args>]");
+        showMessage(MSG_DEFAULT, false, "Usage: java -jar scs-map-mod-packer<version>.jar [--version] [--help] [--o] [<args>]");
 
         showMessage(MSG_DEFAULT, false, "\n Commands:");
         showMessage(MSG_DEFAULT, false, "\t --version: shows SCSMMP version.");
@@ -155,10 +169,10 @@ public class Terminal
         showMessage(MSG_DEFAULT, false, "\t Output directory: it's the .scs wrapped file output directory. Can be any directory, but can be setted like \"C:\\Users\\<user>\\Documents\\Euro Truck Simulator 2\\mod\" to can be loaded automatically.");
 
         showMessage(MSG_DEFAULT, false, "\n Examples list:");
-        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --version");
-        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --help");
-        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
-        showMessage(MSG_DEFAULT, false, "\t scsmmp.jar --o \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
+        showMessage(MSG_DEFAULT, false, "\t java -jar scs-map-mod-packer<version>.jar --version");
+        showMessage(MSG_DEFAULT, false, "\t java -jar scs-map-mod-packer<version>.jar --help");
+        showMessage(MSG_DEFAULT, false, "\t java -jar scs-map-mod-packer<version>.jar \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
+        showMessage(MSG_DEFAULT, false, "\t java -jar scs-map-mod-packer<version>.jar --o \"map_mod_name\" \"map_mod_directory\" \"output_directory\"");
     }
 
     /**
