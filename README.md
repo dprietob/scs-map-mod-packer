@@ -9,7 +9,8 @@ SCSMMP can be used in 2 differents ways:
 When running the application in a normal way, the following user interface will appear. In it, you only have to indicate the 3 required fields and click on `Start`. 
 Every time you want to test or launch the map mod, you must run the packaging process by pressing the `Start` button so that it updates the `.scs` file generating a 
 new one.
-![SCSMMP main view](https://github.com/dprietob/SCS-Map-Mod-Packer/blob/master/screenshots/screenshot.png "SCSMMP main view")
+
+![SCSMMP main view](https://github.com/dprietob/SCS-Map-Mod-Packer/blob/master/screenshots/SCSMMP.png "SCSMMP main view")
 
 #### GUI fields:
 - **Name:** it's the map mod name. It's the same that the `map/map_name.mbd` filename.
